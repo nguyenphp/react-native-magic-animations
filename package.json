@@ -1,0 +1,41 @@
+{
+  "name": "react-native-magic-animations",
+  "version": "0.1.0",
+  "description": "Magical, high-performance animations for React Native — just wrap and go.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src --ext .ts,.tsx",
+    "test": "jest"
+  },
+  "keywords": [
+    "react-native",
+    "animation",
+    "magic",
+    "text-animation",
+    "background-animation",
+    "reanimated"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nguyenphp/react-native-magic-animations.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nguyenphp/react-native-magic-animations/issues"
+  },
+  "homepage": "https://github.com/nguyenphp/react-native-magic-animations#readme",
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-native": ">=0.73.0",
+    "react-native-reanimated": ">=3.0.0",
+    "react-native-svg": ">=14.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-native": "^0.73.0",
+    "typescript": "^5.0.0"
+  }
+}
