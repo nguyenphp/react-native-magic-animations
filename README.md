@@ -647,4 +647,4 @@ Semi-circle gauge with animated arc.
 
 ## License
 
-MIT © Nguyen Pham
+MIT © Nguyen Pham (Percy)
