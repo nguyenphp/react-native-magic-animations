@@ -732,6 +732,12 @@ function getFfmpegFilter(filename) {
 
 // Record a video and convert to high-quality GIF
 async function recordAndConvert(filename, durationSec, isInteractive = false, startTime = 0) {
+  // Proactively terminate any lingering recordVideo processes before starting
+  try {
+    runCmd('pkill -9 -f recordVideo || true');
+  } catch (e) {}
+  await delay(1000);
+
   console.log(`Starting simulator recording: ${filename}.mp4 (${durationSec}s)`);
   
   const tempMp4 = path.resolve('/tmp', `${filename}.mp4`);
@@ -763,8 +769,14 @@ async function recordAndConvert(filename, durationSec, isInteractive = false, st
     // Already exited
   }
 
+  // Await the exit of the recording process to ensure file lock is released
+  await new Promise((resolve) => {
+    recordProcess.on('exit', resolve);
+    setTimeout(resolve, 3000);
+  });
+
   // Wait for file lock release and file creation
-  await delay(2000);
+  await delay(1000);
 
   // Convert to high-quality, lightweight GIF
   console.log(`Converting ${filename}.mp4 to optimized GIF using ffmpeg...`);
@@ -845,7 +857,7 @@ async function main() {
     fs.writeFileSync(activeRecordingPath, code, 'utf8');
     
     // Let Metro Fast Refresh reload and display
-    await delay(2000);
+    await delay(4000);
 
     // Determine recording duration and interaction requirements
     const isInteractive = ['ripple', 'jellypress', 'tapfeedback', 'doubletapheart', 'swipereveal'].includes(comp.name.toLowerCase());

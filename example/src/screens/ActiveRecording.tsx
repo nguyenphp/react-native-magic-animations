@@ -353,7 +353,7 @@ export default function ActiveRecording() {
       }}
     >
       <View style={styles.showcaseWrapper} key={key} pointerEvents="none">
-        <Typewriter text="Hello, Magic Animations!" style={styles.text} speed={60} />
+        <Gauge value={0.75} size={140} strokeWidth={14} color="#4CAF50" trackColor="#E8F5E9" />
       </View>
     </TouchableOpacity>
   );
