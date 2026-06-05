@@ -334,10 +334,20 @@ function EmojiBurstWrapper() {
 }
 
 export default function ActiveRecording() {
+  const shouldReset = true;
+  const [key, setKey] = useState(0);
+  useEffect(() => {
+    if (!shouldReset) return;
+    const timer = setInterval(() => {
+      setKey(k => k + 1);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <View style={styles.container}>
-      <View style={styles.showcaseWrapper}>
-        <Gauge value={0.75} size={140} strokeWidth={14} color="#4CAF50" trackColor="#E8F5E9" />
+      <View style={styles.showcaseWrapper} key={key}>
+        <Typewriter text="Hello, Magic Animations!" style={styles.text} speed={60} />
       </View>
     </View>
   );

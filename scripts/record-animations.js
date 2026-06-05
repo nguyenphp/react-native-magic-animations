@@ -475,9 +475,19 @@ function EmojiBurstWrapper() {
 }
 
 export default function ActiveRecording() {
+  const shouldReset = ${['typewriter', 'scramble', 'bouncein', 'fadeword', 'revealmask', 'decode', 'shuffle', 'capitalize', 'highlight', 'underline', 'strike', 'check', 'cross', 'progressring', 'animatedbar', 'sparkline', 'linechart', 'barchart', 'gauge'].includes(component.name.toLowerCase())};
+  const [key, setKey] = useState(0);
+  useEffect(() => {
+    if (!shouldReset) return;
+    const timer = setInterval(() => {
+      setKey(k => k + 1);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <View style={styles.container}>
-      <View style={styles.showcaseWrapper}>
+      <View style={styles.showcaseWrapper} key={key}>
         ${component.jsx}
       </View>
     </View>
