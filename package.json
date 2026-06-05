@@ -1,9 +1,16 @@
 {
   "name": "react-native-magic-animations",
-  "version": "0.1.0",
-  "description": "Magical, high-performance animations for React Native — just wrap and go.",
+  "version": "0.2.0",
+  "description": "Magical, high-performance animations for React Native — 75+ wrap-and-go effects: text, view, background, in/out transitions, gestures, decorations, charts.",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "files": [
+    "src",
+    "assets",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "lint": "eslint src --ext .ts,.tsx",
@@ -13,9 +20,23 @@
     "react-native",
     "animation",
     "magic",
+    "reanimated",
     "text-animation",
+    "view-animation",
     "background-animation",
-    "reanimated"
+    "transition",
+    "particles",
+    "confetti",
+    "thanos",
+    "shatter",
+    "iris",
+    "mosaic",
+    "vortex",
+    "materialize",
+    "gesture",
+    "tilt3d",
+    "magnetic",
+    "jelly-press"
   ],
   "author": "",
   "license": "MIT",
