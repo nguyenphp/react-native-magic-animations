@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import {
   Typewriter,
   Wave,
@@ -340,16 +340,22 @@ export default function ActiveRecording() {
     if (!shouldReset) return;
     const timer = setInterval(() => {
       setKey(k => k + 1);
-    }, 3000);
+    }, 8000);
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.showcaseWrapper} key={key}>
+    <TouchableOpacity 
+      activeOpacity={1}
+      style={styles.container}
+      onPress={() => {
+        if (shouldReset) setKey(k => k + 1);
+      }}
+    >
+      <View style={styles.showcaseWrapper} key={key} pointerEvents="none">
         <Typewriter text="Hello, Magic Animations!" style={styles.text} speed={60} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

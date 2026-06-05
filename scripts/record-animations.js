@@ -140,7 +140,7 @@ const components = [
 // Generate the ActiveRecording.tsx file contents dynamically
 function generateActiveRecordingCode(component) {
   return `import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import {
   Typewriter,
   Wave,
@@ -481,16 +481,22 @@ export default function ActiveRecording() {
     if (!shouldReset) return;
     const timer = setInterval(() => {
       setKey(k => k + 1);
-    }, 3000);
+    }, 8000);
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.showcaseWrapper} key={key}>
+    <TouchableOpacity 
+      activeOpacity={1}
+      style={styles.container}
+      onPress={() => {
+        if (shouldReset) setKey(k => k + 1);
+      }}
+    >
+      <View style={styles.showcaseWrapper} key={key} pointerEvents="none">
         ${component.jsx}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -725,7 +731,7 @@ function getFfmpegFilter(filename) {
 }
 
 // Record a video and convert to high-quality GIF
-async function recordAndConvert(filename, durationSec, isInteractive = false) {
+async function recordAndConvert(filename, durationSec, isInteractive = false, startTime = 0) {
   console.log(`Starting simulator recording: ${filename}.mp4 (${durationSec}s)`);
   
   const tempMp4 = path.resolve('/tmp', `${filename}.mp4`);
@@ -736,19 +742,14 @@ async function recordAndConvert(filename, durationSec, isInteractive = false) {
     stdio: 'ignore'
   });
 
-  // If interactive (like swipe or double tap), perform action mid-recording
+  // If interactive (like swipe or double tap or reset on tap), perform action mid-recording
   if (isInteractive) {
     await delay(1200);
-    if (filename.includes('ripple') || filename.includes('jellypress') || filename.includes('tapfeedback')) {
-      console.log('Simulating tap...');
-      runCmd("osascript -e 'tell application \"System Events\" to tell process \"Simulator\" to tell window 1 to click at {150, 200}'");
-    } else if (filename.includes('doubletapheart')) {
-      console.log('Simulating double tap...');
-      runCmd("osascript -e 'tell application \"System Events\" to tell process \"Simulator\" to tell window 1 to click at {150, 200}'");
+    console.log('Simulating tap/interaction...');
+    runCmd("osascript -e 'tell application \"System Events\" to tell process \"Simulator\" to tell window 1 to click at {180, 300}'");
+    if (filename.includes('doubletapheart')) {
       await delay(150);
-      runCmd("osascript -e 'tell application \"System Events\" to tell process \"Simulator\" to tell window 1 to click at {150, 200}'");
-    } else if (filename.includes('swipereveal')) {
-      console.log('Simulating swipe reveal...');
+      runCmd("osascript -e 'tell application \"System Events\" to tell process \"Simulator\" to tell window 1 to click at {180, 300}'");
     }
   }
 
@@ -768,7 +769,8 @@ async function recordAndConvert(filename, durationSec, isInteractive = false) {
   // Convert to high-quality, lightweight GIF
   console.log(`Converting ${filename}.mp4 to optimized GIF using ffmpeg...`);
   const filter = getFfmpegFilter(filename);
-  runCmd(`ffmpeg -y -i "${tempMp4}" -vf "${filter}" "${outputGif}"`);
+  const timeArgs = startTime > 0 ? `-ss ${startTime} -t 3.0` : `-t ${durationSec}`;
+  runCmd(`ffmpeg -y ${timeArgs} -i "${tempMp4}" -vf "${filter}" "${outputGif}"`);
   
   // Clean up mp4
   if (fs.existsSync(tempMp4)) {
@@ -847,9 +849,13 @@ async function main() {
 
     // Determine recording duration and interaction requirements
     const isInteractive = ['ripple', 'jellypress', 'tapfeedback', 'doubletapheart', 'swipereveal'].includes(comp.name.toLowerCase());
-    const duration = isInteractive ? 4.5 : 3.5;
+    const shouldReset = ['typewriter', 'scramble', 'bouncein', 'fadeword', 'revealmask', 'decode', 'shuffle', 'capitalize', 'highlight', 'underline', 'strike', 'check', 'cross', 'progressring', 'animatedbar', 'sparkline', 'linechart', 'barchart', 'gauge'].includes(comp.name.toLowerCase());
+    
+    const triggerTap = isInteractive || shouldReset;
+    const duration = triggerTap ? 4.5 : 3.5;
+    const startTime = shouldReset ? 1.2 : 0;
 
-    await recordAndConvert(`comp_${comp.name.toLowerCase()}`, duration, isInteractive);
+    await recordAndConvert(`comp_${comp.name.toLowerCase()}`, duration, triggerTap, startTime);
   }
 
   // Restore normal app state

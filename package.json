@@ -1,6 +1,6 @@
 {
   "name": "react-native-magic-animations",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Magical, high-performance animations for React Native — 75+ wrap-and-go effects: text, view, background, in/out transitions, gestures, decorations, charts.",
   "main": "src/index.ts",
   "types": "src/index.ts",
