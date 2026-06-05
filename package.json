@@ -14,7 +14,8 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint src --ext .ts,.tsx",
-    "test": "jest"
+    "test": "jest",
+    "release:npm": "./scripts/publish.sh"
   },
   "keywords": [
     "react-native",
