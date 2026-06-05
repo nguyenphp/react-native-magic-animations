@@ -23,13 +23,21 @@
 ## Installation
 
 ```bash
+# Using npm
 npm install react-native-magic-animations
+
+# Using yarn
+yarn add react-native-magic-animations
 ```
 
 ### Peer dependencies
 
 ```bash
+# Using npm
 npm install react-native-reanimated react-native-svg
+
+# Using yarn
+yarn add react-native-reanimated react-native-svg
 ```
 
 > Follow the [react-native-reanimated install guide](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started) for native setup.
