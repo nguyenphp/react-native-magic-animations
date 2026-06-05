@@ -107,7 +107,7 @@ function Flame({
           height: size * 1.6,
           borderRadius: size / 2,
           backgroundColor: color,
-          left,
+          left: left as any,
           bottom: -size * 0.3,
         },
         animStyle,

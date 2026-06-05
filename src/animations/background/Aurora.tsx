@@ -97,7 +97,10 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backdropFilter: 'blur(60px)',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
   },
 })
